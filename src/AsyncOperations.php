@@ -1,5 +1,6 @@
 <?php
 
+//类似于其他语言的package，  Zack\ 是 供应商命名空间（Vendor Namespace），类似品牌前缀。
 namespace Zack\PhpUniversalUsage;
 
 class AsyncOperations
