@@ -138,7 +138,6 @@ class HelloWorld
             "hobbies" => ["读书", "游泳", "编程"]
         ];
 
-        //encode and decode
         $json = json_encode($data, JSON_UNESCAPED_UNICODE);
         echo "JSON字符串: " . $json . PHP_EOL;
 

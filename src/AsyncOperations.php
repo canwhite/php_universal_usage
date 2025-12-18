@@ -1,4 +1,5 @@
 <?php
+//我们省略了结束标识而已
 
 //类似于其他语言的package，  Zack\ 是 供应商命名空间（Vendor Namespace），类似品牌前缀。
 namespace Zack\PhpUniversalUsage;
@@ -8,7 +9,7 @@ class AsyncOperations
     // PHP中的"异步"概念和JavaScript不同
     // PHP主要是同步执行，但可以通过多种方式实现并发
 
-    // 1. 使用多进程 (pcntl扩展)
+    // 1. 使用多进程 (pcntl扩展)，其中p是progress cntl就是control
     public function demonstrateMultiProcess()
     {
         echo "=== 多进程演示 ===" . PHP_EOL;
@@ -22,17 +23,30 @@ class AsyncOperations
         $processes = [];
         $maxProcesses = 3;
 
+
         for ($i = 1; $i <= $maxProcesses; $i++) {
+            //创建子进程
             $pid = pcntl_fork();
+            /**
+             *   实际执行流程，这里fork之后有一个分叉时刻
+             *   进程分叉时刻：
+             *               fork()
+             *               ┌─────┐
+             *               │     │
+             *         父进程 │     │ 子进程
+             *               │     │
+             *       $pid=1234    $pid=0
+             */
+
 
             if ($pid == -1) {
                 // 创建进程失败
                 die("无法创建子进程");
             } elseif ($pid) {
-                // 父进程
+                // 父进程用于记录，老板负责管理
                 $processes[] = $pid;
             } else {
-                // 子进程
+                // 子进程，子进程用于做事儿
                 $this->doBackgroundWork($i);
                 exit(0);
             }
@@ -54,43 +68,14 @@ class AsyncOperations
         echo "工作进程 $workerId 完成" . PHP_EOL;
     }
 
-    // 2. 使用多线程 (pthreads扩展，PHP 7.2+不再维护)
-    // 3. 使用ReactPHP或Swoole等异步框架
 
-    // 4. 模拟异步操作的简单方法
-    public function simulateAsyncOperations()
-    {
-        echo "=== 模拟异步操作 ===" . PHP_EOL;
 
-        $start = microtime(true);
-
-        // 模拟多个独立的耗时操作
-        $tasks = [
-            'task1' => $this->simulateApiCall('用户服务', 2),
-            'task2' => $this->simulateApiCall('订单服务', 1),
-            'task3' => $this->simulateApiCall('支付服务', 1.5)
-        ];
-
-        $end = microtime(true);
-        echo "总耗时: " . round($end - $start, 2) . " 秒" . PHP_EOL;
-
-        return $tasks;
-    }
-
-    private function simulateApiCall($serviceName, $seconds)
-    {
-        echo "调用 $serviceName..." . PHP_EOL;
-        // 模拟网络请求延迟
-        sleep($seconds);
-        echo "$serviceName 响应完成" . PHP_EOL;
-        return "$serviceName 结果";
-    }
-
-    // 5. 使用Generator实现类似异步的模式
+    // 2. 使用Generator实现类似异步的模式
     public function demonstrateGenerators()
     {
         echo "=== Generator演示 ===" . PHP_EOL;
 
+        // $generator 是一个 Generator 对象（就是迭代器本身），因为内部用yield返回的
         $generator = $this->processItems();
 
         foreach ($generator as $item) {
@@ -109,7 +94,7 @@ class AsyncOperations
         }
     }
 
-    // 6. Promise风格的实现（简化版）
+    // 3. Promise风格的实现（简化版）
     public function demonstratePromiseLike()
     {
         echo "=== Promise风格演示 ===" . PHP_EOL;
@@ -161,9 +146,6 @@ class AsyncOperations
     public function runAll()
     {
         echo "=== 异步操作演示开始 ===" . PHP_EOL . PHP_EOL;
-
-        $this->simulateAsyncOperations();
-        echo PHP_EOL;
 
         $this->demonstrateGenerators();
         echo PHP_EOL;
