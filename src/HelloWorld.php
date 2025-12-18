@@ -38,7 +38,6 @@ class HelloWorld
 
         // 内爆，第一次见
         // 到这里你应该也发现了，php即为喜欢使用静态方法去处理问题
-        // 
         $joined = implode(" | ", $fruitArray);
         echo $joined . PHP_EOL;
     }
@@ -65,11 +64,6 @@ class HelloWorld
         echo "弹出水果后的数组:" . PHP_EOL;
         print_r($fruits);
 
-        // 继续弹出
-        $secondLast = array_pop($fruits);
-        echo PHP_EOL . "第二次弹出的水果: $secondLast" . PHP_EOL;
-        echo "再次弹出后的数组:" . PHP_EOL;
-        print_r($fruits);
 
         // 其他数组栈操作
         echo PHP_EOL . "=== 其他数组栈操作 ===" . PHP_EOL;
@@ -83,6 +77,8 @@ class HelloWorld
         // array_unshift - 从数组开头添加元素 (队列入队)
         array_unshift($fruits, "strawberry", "kiwi");
         echo PHP_EOL . "在开头添加水果后的数组:" . PHP_EOL;
+
+        //第二种输出方式，用来输出数组或对象，后边的_r是readable的意思
         print_r($fruits);
 
         // 访问元素
@@ -97,6 +93,7 @@ class HelloWorld
         }
 
         // 数组遍历
+        // foreach的时候给原来的$fruits拆分形态也是很有意思
         foreach ($fruits as $index => $fruit) {
             echo "$index: $fruit" . PHP_EOL;
         }
@@ -110,7 +107,7 @@ class HelloWorld
         $slice = array_slice($fruits, 0, 2);
         print_r($slice);
 
-        // 关联数组（类似map）
+        // 关联数组（类似map），数组map形态
         // 这个形态，ok
         $person = [
             "name" => "张三",
