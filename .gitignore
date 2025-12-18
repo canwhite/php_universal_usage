@@ -1,0 +1,42 @@
+# Composer
+/vendor/
+
+# Environment
+.env
+.env.local
+.env.production
+
+# Cache & Logs
+/storage/logs/
+/storage/framework/cache/
+/bootstrap/cache/
+/var/cache/
+/tmp/
+
+# IDE & Editors
+.idea/
+.vscode/
+*.code-workspace
+
+# OS Files
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+*.sublime-*
+
+# Frontend Build
+/node_modules/
+/public/build/
+/dist/
+
+# Testing
+/coverage/
+.phpunit.result.cache
+
+# Development
+*.log
+.php-cs-fixer.cache
+
+# Config
+config/local.php
