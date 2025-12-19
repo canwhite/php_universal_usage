@@ -65,13 +65,13 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-// 控制器路由
+// 控制器路由，点用某个class的index方法
 Route::get('/users', [UserController::class, 'index']);
 
 // 资源路由 (自动生成 CRUD)
 Route::resource('posts', PostController::class);
 
-// 路由分组
+// 路由分组，方法链式调用吗，每个都返回this
 Route::middleware(['auth'])->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index']);
 });
@@ -224,6 +224,11 @@ npm install
 2. **环境配置**
 ```bash
 cp .env.example .env
+# 生成随机种子，主要是为了安全
+#  - php - PHP 语言本身
+#  - artisan - Laravel 提供的命令行工具
+#  - key:generate - Laravel 定义的命令格式（组名:动作名）
+#  - : - 只是命名规范，表示命令分组
 php artisan key:generate
 ```
 
@@ -234,7 +239,7 @@ DB_HOST=127.0.0.1
 DB_PORT=3306
 DB_DATABASE=myapp
 DB_USERNAME=root
-DB_PASSWORD=
+DB_PASSWORD=d
 ```
 
 ### 阶段 2：数据库设置
@@ -244,12 +249,12 @@ DB_PASSWORD=
 CREATE DATABASE myapp CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 ```
 
-2. **运行迁移**
+1. **运行迁移，主要是表操作，表字段的处理**
 ```bash
 php artisan migrate
 ```
 
-3. **填充数据**
+1. **填充数据**
 ```bash
 php artisan db:seed
 ```
