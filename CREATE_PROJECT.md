@@ -21,7 +21,7 @@ myproject/
 
 **尝试运行：**
 ```bash
-php artisan serve  # 报错：artisan 命令不存在！
+php artisan serve  # 报错：artisan 命令不存在！hs
 php -S localhost:8000  # 访问后显示空白页面！
 ```
 
