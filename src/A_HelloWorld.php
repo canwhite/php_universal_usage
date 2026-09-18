@@ -36,14 +36,15 @@ class A_HelloWorld
 
         // 字符串分割和连接
         $fruits = "apple,banana,orange";
-        // explode其用如其名，字符串大爆炸
+        // explode其用如其名，想起了老罗的大爆炸
         $fruitArray = explode(",", $fruits);
         print_r($fruitArray);
 
         // 内爆，第一次见
-        // 到这里你应该也发现了，php即为喜欢使用静态方法去处理问题
+        // 这个和大爆炸反向理解吧，implode的都一个参数是用于拼接的工具
         $joined = implode(" | ", $fruitArray);
         echo $joined . PHP_EOL;
+
     }
 
 
@@ -201,12 +202,15 @@ class A_HelloWorld
         $user["age"] = 26;                       // 修改
         echo "年龄: " . $user["age"] . PHP_EOL;
 
-        // 3. 删除
+        // 3. 删除，删除用的不是delete。而是unset
         unset($user["city"]);
         echo "删除 city 后剩下的键: " . implode(", ", array_keys($user)) . PHP_EOL;
 
+
         // 4. 取值给默认值 —— 键不存在时直接取会报 warning，加 ?? 就安全
+        // 这个给默认值的操作似是故人。js的操作，python的操作也很神奇 data = input or default
         echo "昵称: " . ($user["nickname"] ?? "未设置") . PHP_EOL;
+
 
         // 5. 判断键是否存在：array_key_exists 和 isset 不一样
         $config = ["debug" => false, "cache" => null];
@@ -214,10 +218,20 @@ class A_HelloWorld
         var_dump(isset($config["cache"]));            // false，isset 认为 null 等于不存在
         // 只关心"有没有这个键"用 array_key_exists，关心"有没有值"用 isset
 
-        // 6. 遍历 —— foreach 同时拿键和值
+
+        // 6. 遍历 —— foreach 同时拿键和值。这个和数组差不多
         foreach ($user as $key => $value) {
             echo "$key => $value" . PHP_EOL;
         }
+
+        //dict 可以使用数组的map吗？可以的，array_map是可以用在关联数组上的，只不过它只会传递值给回调函数，键不会传递过去。
+        //给个例子
+        $uppercased = array_map(function($value) {
+            return strtoupper($value);
+        }, $user);
+        print_r($uppercased);
+
+        //反而foreach是通用的是吧？
 
         // 7. 嵌套：值本身也可以是 dict 或数组
         $order = [
@@ -229,6 +243,7 @@ class A_HelloWorld
         echo "商品数量: " . count($order["items"]) . PHP_EOL;
 
         // 8. 排序：ksort 按 key 排，asort 按 value 排（两者都保留键名）
+
         $scores = ["banana" => 3, "apple" => 5, "cherry" => 1];
         $byKey = $scores;
         ksort($byKey);
