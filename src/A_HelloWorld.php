@@ -173,6 +173,8 @@ class A_HelloWorld
         }, 0);
         print_r($sum);
 
+        //PS: 另外array_merge可以合并两个数组，array_diff可以求两个数组的差集，array_intersect可以求两个数组的交集
+
     }
 
 

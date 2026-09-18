@@ -2,33 +2,12 @@
 
 namespace Zack\PhpUniversalUsage;
 
+
+//创建类
 class B_TypeTesting
 {
-    // PHP类型测试和验证
-    public function demonstrateTypeTesting()
-    {
-        echo "=== 类型测试演示 ===" . PHP_EOL;
 
-        // 测试基本类型
-        $this->testBasicTypes();
-        echo PHP_EOL;
-
-        // 测试复合类型
-        $this->testCompoundTypes();
-        echo PHP_EOL;
-
-        // 测试特殊类型
-        $this->testSpecialTypes();
-        echo PHP_EOL;
-
-        // 类型转换测试
-        $this->testTypeCasting();
-        echo PHP_EOL;
-
-        // PHP 8+ 的联合类型和枚举测试
-        $this->testModernTypes();
-    }
-
+    //todo，我应该在这里加上判空之类的内容
     private function testBasicTypes()
     {
         echo "--- 基本类型测试 ---" . PHP_EOL;
@@ -41,6 +20,9 @@ class B_TypeTesting
             'null' => null
         ];
 
+        /*******************************************************************
+         * 所以从这里我们能看到基本数据类型是string, integer, float, boolean, null
+         ******************************************************************/
         foreach ($variables as $name => $value) {
             $type = gettype($value);
             echo "变量 '$name' 的值: ";
@@ -64,6 +46,7 @@ class B_TypeTesting
                     echo "  is_bool(): " . (is_bool($value) ? 'true' : 'false') . PHP_EOL;
                     break;
                 case 'null':
+                    //is_null() 函数用于检测一个变量是否为 NULL。它返回 true 如果变量是 NULL，否则返回 false。
                     echo "  is_null(): " . (is_null($value) ? 'true' : 'false') . PHP_EOL;
                     break;
             }
@@ -73,6 +56,10 @@ class B_TypeTesting
     private function testCompoundTypes()
     {
         echo "--- 复合类型测试 ---" . PHP_EOL;
+
+        /*******************************************************************
+         * 这里我们主要看到的是is_array() 和 is_object()，还有 count() 和 get_class() 这些函数
+         ******************************************************************/
 
         // 数组测试
         $array = ['apple', 'banana', 'orange'];
@@ -99,6 +86,9 @@ class B_TypeTesting
     private function testSpecialTypes()
     {
         echo "--- 特殊类型测试 ---" . PHP_EOL;
+        /*******************************************************************
+         * 这里我们主要看到的是资源类型、闭包和生成器这些特殊类型，is_resource()、is_callable()、instanceof Generator 等函数
+         ******************************************************************/
 
         // 资源类型测试
         $fileHandle = fopen('php://memory', 'r');
@@ -107,7 +97,7 @@ class B_TypeTesting
         echo "  get_resource_type(): " . get_resource_type($fileHandle) . PHP_EOL;
         fclose($fileHandle);
 
-        // 闭包测试
+        // 闭包测试,我们可以看到一闭包的类型是object，is_callable()返回true，闭包调用返回结果
         $closure = function($x) { return $x * 2; };
         echo PHP_EOL . "闭包: " . gettype($closure) . PHP_EOL;
         echo "  is_callable(): " . (is_callable($closure) ? 'true' : 'false') . PHP_EOL;
@@ -123,6 +113,9 @@ class B_TypeTesting
     {
         echo "--- 类型转换测试 ---" . PHP_EOL;
 
+
+        // 1. 强制类型转换,这里实际上很符合传统的c的能力
+        // 相对于go的已经是很好理解的版本了，go是变量.(类型)
         $string = "123abc";
         echo "原字符串: '$string'" . PHP_EOL;
         echo "  (int) 强制转换: " . (int)$string . PHP_EOL;
@@ -211,5 +204,30 @@ class B_TypeTesting
         for ($i = 1; $i <= 3; $i++) {
             yield "测试值 $i";
         }
+    }
+
+        // PHP类型测试和验证
+    public function demonstrateTypeTesting()
+    {
+        echo "=== 类型测试演示 ===" . PHP_EOL;
+
+        // 测试基本类型
+        $this->testBasicTypes();
+        echo PHP_EOL;
+
+        // 测试复合类型
+        $this->testCompoundTypes();
+        echo PHP_EOL;
+
+        // 测试特殊类型
+        $this->testSpecialTypes();
+        echo PHP_EOL;
+
+        // 类型转换测试
+        $this->testTypeCasting();
+        echo PHP_EOL;
+
+        // PHP 8+ 的联合类型和枚举测试
+        $this->testModernTypes();
     }
 }
