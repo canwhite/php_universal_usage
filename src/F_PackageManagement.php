@@ -2,7 +2,7 @@
 
 namespace Zack\PhpUniversalUsage;
 
-class PackageManagement
+class F_PackageManagement
 {
     public function demonstrateComposerInfo()
     {

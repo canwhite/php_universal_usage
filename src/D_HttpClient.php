@@ -2,7 +2,7 @@
 
 namespace Zack\PhpUniversalUsage;
 
-class HttpClient
+class D_HttpClient
 {
     // 同步HTTP请求 - 使用cURL
     public function makeGetRequest($url)

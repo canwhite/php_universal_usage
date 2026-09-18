@@ -4,7 +4,7 @@
 //类似于其他语言的package，  Zack\ 是 供应商命名空间（Vendor Namespace），类似品牌前缀。
 namespace Zack\PhpUniversalUsage;
 
-class AsyncOperations
+class E_AsyncOperations
 {
     // PHP中的"异步"概念和JavaScript不同
     // PHP主要是同步执行，但可以通过多种方式实现并发

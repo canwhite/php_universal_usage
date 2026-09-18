@@ -2,7 +2,7 @@
 
 namespace Zack\PhpUniversalUsage;
 
-class HelloWorld
+class A_HelloWorld
 {
     public function sayHello()
     {
@@ -182,11 +182,14 @@ class HelloWorld
         // 别的语言里叫 dict / hash / map，PHP 统称 associative array
 
         // 1. 创建
+        // 整体给人的感觉就是在数组中演示dict
         $user = [
+            //key => value的形式，key是字符串，value可以是任意类型
             "name" => "张三",
             "age" => 25,
             "city" => "北京",
         ];
+
         // 先声明空数组再逐个赋值，结果一样
         $empty = [];
         $empty["name"] = "李四";
@@ -245,6 +248,85 @@ class HelloWorld
         print_r($a + $b);
     }
 
+
+    //集合的操作演示
+    public function demonstrateSetOperations()
+    {
+        // PHP 没有原生的 Set 类型，想用集合一般有两种做法：
+        //  1) 用"值当键"的数组模拟 —— 最常用，下面主要讲这个
+        //  2) SplObjectStorage —— 存对象用的集合，按"是不是同一个对象"去重
+        // 另外还有个扩展 ext-ds 提供 Ds\Set，不是标配，这里不碰
+
+        // 1. 建集合：把元素放到键上，值统一给 true
+        // 因为判断"在不在"靠的是键，值是什么其实无所谓
+        $set = [
+            "apple" => true,
+            "banana" => true,
+            "orange" => true,
+        ];
+        echo "集合: " . implode(", ", array_keys($set)) . PHP_EOL;
+
+        // 普通数组转集合有个快捷写法：array_flip
+        // 顺带就把重复值去掉了——重复的值翻转后是同一个键，会互相覆盖
+        print_r(array_flip(["a", "b", "c", "a"]));
+
+        // 2. 去重：普通数组用 array_unique
+        $duplicated = ["php", "go", "php", "rust", "go"];
+        // 坑：array_unique 会保留原来的键，结果不是紧凑的 0,1,2
+        print_r(array_unique($duplicated));
+        // 所以要套一层 array_values 重新编号
+        print_r(array_values(array_unique($duplicated)));
+
+        // 3. 判断元素在不在 —— 集合最常用的操作
+        $visited = ["home" => true, "about" => true];
+        // isset 是 O(1)：按哈希键直接命中
+        var_dump(isset($visited["home"]));
+        // in_array 是 O(n)：从头一个个比过去
+        var_dump(in_array("home", ["home", "about"]));
+
+        // 4. 增 / 删
+        $visited["contact"] = true;  // 添加
+        unset($visited["about"]);    // 删除
+        echo "增删后: " . implode(", ", array_keys($visited)) . PHP_EOL;
+
+        // 5. 集合运算
+        $a = ["a", "b", "c"];
+        $b = ["b", "c", "d"];
+        // 并集：两边所有元素合起来去重
+        echo "并集: " . implode(", ", array_values(array_unique(array_merge($a, $b)))) . PHP_EOL;
+        // 交集：两边都有的
+        echo "交集: " . implode(", ", array_intersect($a, $b)) . PHP_EOL;
+        // 差集：$a 有而 $b 没有的
+        echo "差集(a - b): " . implode(", ", array_diff($a, $b)) . PHP_EOL;
+        // 对称差集：只在其中一边出现的
+        $symmetric = array_merge(array_diff($a, $b), array_diff($b, $a));
+        echo "对称差集: " . implode(", ", $symmetric) . PHP_EOL;
+
+        // 6. 坑：数组的键只能是 int 或 string，别的类型会被悄悄转掉
+        $bad = [];
+        $bad["1"] = true;    // 数字字符串的键 → int 1
+        $bad[true] = true;   // true → int 1，和上面撞成同一个键了
+        $bad[false] = true;  // false → int 0
+        print_r(array_keys($bad));
+        // 另外浮点键会被截断（1.9 变 1），null 会变成空字符串，
+        // PHP 8.5 对这两种情况会直接抛 Deprecated 警告
+        // 所以：元素是比较稳定的字符串 / 整数时，才适合拿数组当集合
+
+        // 7. 元素是对象时用 SplObjectStorage，按对象身份去重，而不是按内容
+        // 注意前面的反斜杠：本文件在命名空间里，不带 \ 的话 PHP 会去
+        // Zack\PhpUniversalUsage\ 底下找这个类，直接 Class not found。
+        // 函数（isset、array_map 这些）有全局回退，类没有，必须写 \ 或 use
+        $storage = new \SplObjectStorage();
+        $o1 = new \stdClass();
+        $o2 = new \stdClass();
+        // PHP 8.5 起 attach()/contains() 被废弃了，改用数组下标写法
+        // （内部走 offsetSet/offsetExists），正好和上面数组模拟的集合长得一致
+        $storage[$o1] = true;
+        $storage[$o2] = true;
+        $storage[$o1] = true; // 同一个对象，第二次加不进去
+        echo "对象集合大小: " . $storage->count() . PHP_EOL;
+        var_dump(isset($storage[$o1]));
+    }
 
     public function demonstrateJsonOperations()
     {
@@ -395,8 +477,8 @@ class HelloWorld
         echo "\n=== 字典(dict)操作演示 ===" . PHP_EOL;
         $this->demonstrateDictOperations();
 
-        echo "\n=== array_map 演示 ===" . PHP_EOL;
-        $this->demonstrateArrayMapOperations();
+        echo "\n=== 集合(set)操作演示 ===" . PHP_EOL;
+        $this->demonstrateSetOperations();
 
         echo "\n=== JSON操作演示 ===" . PHP_EOL;
         $this->demonstrateJsonOperations();

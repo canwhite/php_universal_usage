@@ -2,7 +2,7 @@
 
 namespace Zack\PhpUniversalUsage;
 
-class TypeTesting
+class B_TypeTesting
 {
     // PHP类型测试和验证
     public function demonstrateTypeTesting()
@@ -91,8 +91,8 @@ class TypeTesting
         echo "  get_class(): " . get_class($object) . PHP_EOL;
 
         // 当前类对象测试
-        echo PHP_EOL . "当前类对象: TypeTesting" . " (类型: " . gettype($this) . ")" . PHP_EOL;
-        echo "  instanceof TypeTesting: " . ($this instanceof TypeTesting ? 'true' : 'false') . PHP_EOL;
+        echo PHP_EOL . "当前类对象: B_TypeTesting" . " (类型: " . gettype($this) . ")" . PHP_EOL;
+        echo "  instanceof B_TypeTesting: " . ($this instanceof B_TypeTesting ? 'true' : 'false') . PHP_EOL;
         echo "  get_class(): " . get_class($this) . PHP_EOL;
     }
 
