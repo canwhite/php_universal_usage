@@ -2,6 +2,7 @@
 
 require_once 'vendor/autoload.php';
 
+//它竟然用的也是use，很有趣的方式，另外竟然是反斜杠引入的路径
 use Zack\PhpUniversalUsage\HelloWorld;
 use Zack\PhpUniversalUsage\HttpClient;
 use Zack\PhpUniversalUsage\AsyncOperations;

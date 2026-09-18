@@ -115,7 +115,7 @@ php_universal_usage/
 
 3. **运行演示程序**
    ```bash
-   php hello.php
+   php main.php
    ```
 
 ## 📚 学习路径
